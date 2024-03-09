@@ -1,5 +1,15 @@
+/*
+
+Cleaning Data in SQL Queries
+
+*/
+
 Select *
 From pp.dbo.NashvilleHousing
+
+--------------------------------------------------------------------------------------------------------------------------	
+-- Standardize Date Format
+	
 
 Select saleDateConverted, CONVERT(Date,SaleDate)
 From pp.dbo.NashvilleHousing
@@ -13,6 +23,9 @@ Add SaleDateConverted Date;
 
 Update NashvilleHousing
 SET SaleDateConverted = CONVERT(Date,SaleDate)
+ --------------------------------------------------------------------------------------------------------------------------
+
+-- Populate Property Address data
 
 
 Select *
@@ -37,6 +50,11 @@ JOIN pp.dbo.NashvilleHousing b
 	on a.ParcelID = b.ParcelID
 	AND a.[UniqueID ] <> b.[UniqueID ]
 Where a.PropertyAddress is null
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+-- Breaking out Address into Individual Columns (Address, City, State)
 
 
 Select PropertyAddress
@@ -129,10 +147,9 @@ SET SoldAsVacant = CASE When SoldAsVacant = 'Y' THEN 'Yes'
 	   When SoldAsVacant = 'N' THEN 'No'
 	   ELSE SoldAsVacant
 	   END
+--------------------------------------------------------------------------------------------------------------------------
 
-
-
-
+-- Breaking out Address into Individual Columns (Address, City, State)
 
 WITH RowNumCTE AS(
 Select *,
@@ -159,6 +176,10 @@ Order by PropertyAddress
 Select *
 From pp.dbo.NashvilleHousing
 
+
+---------------------------------------------------------------------------------------------------------
+
+-- Delete Unused Columns
 
 
 Select *
